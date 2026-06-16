@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>Basketball History — Challenge Yourself</title>
+<style>
+  :root{
+    --ink:#1c1a24;
+    --paper:#ffffff;
+    --cloud:#f6f4f0;
+    --muted:#6a6478;
+    --line:#e6e1d8;
+    --lakers-purple:#552583;
+    --lakers-gold:#c8a13a;
+    --warriors-blue:#1d428a;
+    --bulls-red:#a8102f;
+    --celtics-green:#1a6b3c;
+    --knicks-orange:#d96a1f;
+    --good:#1a6b3c;
+    --good-bg:#e7f3ea;
+    --bad:#a8102f;
+    --bad-bg:#f9e8ea;
+    --radius:8px;
+    --shadow:0 22px 50px -26px rgba(30,15,55,.5);
+    --shadow-sm:0 10px 26px -18px rgba(30,15,55,.4);
+    --maxw:760px;
+    --font-head:Georgia,'Times New Roman',serif;
+    --font-body:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#f1ecf8;--paper:#161320;--cloud:#1d1a28;--muted:#b3aac6;--line:#2c2740;
+      --good-bg:#15301f;--bad-bg:#34161c;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:var(--font-body);color:var(--ink);background:var(--cloud);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:var(--font-head);margin:0;font-weight:700;line-height:1.2;}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,32px);}
+
+  /* header */
+  .top{
+    color:#fff;text-align:center;
+    background:
+      radial-gradient(800px 360px at 50% -40%,rgba(200,161,58,.28),transparent 60%),
+      linear-gradient(135deg,var(--lakers-purple),var(--warriors-blue));
+    padding-block:clamp(48px,8vw,76px);
+  }
+  .top .eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lakers-gold);margin-block-end:12px;}
+  .top h1{font-size:clamp(2rem,5vw,3rem);}
+  .top p{opacity:.92;font-size:1.1rem;max-width:48ch;margin-inline:auto;margin-block-start:14px;}
+  .backlink{display:inline-block;margin-block-start:22px;font-size:.92rem;color:#fff;text-decoration:none;border-block-end:1px solid rgba(255,255,255,.5);padding-block-end:2px;}
+  .backlink:hover{border-color:#fff;}
+
+  main{padding-block:clamp(34px,6vw,56px);}
+
+  .q{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 26px;margin-block-end:20px;box-shadow:var(--shadow-sm);
+  }
+  .q .qnum{font-size:.74rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--lakers-purple);}
+  .q h3{font-size:1.22rem;margin-block:6px 16px;}
+
+  .opt{display:block;position:relative;margin-block-end:10px;}
+  .opt input{position:absolute;opacity:0;inset-inline-start:0;inset-block-start:0;width:1px;height:1px;}
+  .opt span{
+    display:block;padding:13px 16px 13px 48px;border:1.5px solid var(--line);border-radius:6px;
+    cursor:pointer;transition:.15s;font-size:1.02rem;position:relative;background:var(--paper);
+  }
+  .opt span::before{
+    content:"";position:absolute;inset-inline-start:16px;inset-block-start:50%;transform:translateY(-50%);
+    width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);transition:.15s;
+  }
+  .opt:hover span{border-color:var(--lakers-purple);}
+  .opt input:checked + span{border-color:var(--lakers-purple);background:color-mix(in srgb,var(--lakers-purple) 8%,var(--paper));}
+  .opt input:checked + span::before{border-color:var(--lakers-purple);background:var(--lakers-purple);box-shadow:inset 0 0 0 3px var(--paper);}
+  .opt input:focus-visible + span{outline:2px solid var(--warriors-blue);outline-offset:2px;}
+
+  /* graded states */
+  .q.graded .opt span{cursor:default;}
+  .opt.correct span{border-color:var(--good);background:var(--good-bg);}
+  .opt.correct span::after{content:"\2713  Correct answer";position:absolute;inset-inline-end:14px;inset-block-start:50%;transform:translateY(-50%);font-size:.78rem;font-weight:700;color:var(--good);font-family:var(--font-body);}
+  .opt.wrong span{border-color:var(--bad);background:var(--bad-bg);}
+  .opt.wrong span::after{content:"\2717  Your pick";position:absolute;inset-inline-end:14px;inset-block-start:50%;transform:translateY(-50%);font-size:.78rem;font-weight:700;color:var(--bad);font-family:var(--font-body);}
+
+  .actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-block-start:8px;}
+  .btn{
+    font-family:var(--font-head);font-weight:700;font-size:1.08rem;letter-spacing:.02em;cursor:pointer;
+    color:#2a1d05;background:var(--lakers-gold);padding:15px 38px;border-radius:999px;border:2px solid transparent;
+    box-shadow:0 16px 32px -14px rgba(0,0,0,.4);transition:.2s;
+  }
+  .btn:hover{transform:translateY(-2px);background:#d8b250;}
+  .btn.ghost{background:transparent;color:var(--lakers-purple);border-color:var(--lakers-purple);box-shadow:none;}
+  .btn.ghost:hover{background:color-mix(in srgb,var(--lakers-purple) 10%,transparent);transform:translateY(-2px);}
+
+  .warn{text-align:center;color:var(--bad);font-weight:600;min-height:1.4em;margin-block-start:10px;}
+
+  /* result banner */
+  .result{
+    display:none;margin-block-end:26px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+    color:#fff;text-align:center;
+  }
+  .result.show{display:block;}
+  .result .bar{padding:30px 24px;background:linear-gradient(135deg,var(--lakers-purple),var(--warriors-blue));}
+  .result .score{font-family:var(--font-head);font-size:3rem;font-weight:700;line-height:1;}
+  .result .score small{font-size:1.4rem;opacity:.8;}
+  .result .verdict{font-size:1.25rem;margin-block-start:10px;font-family:var(--font-head);}
+  .result .msg{opacity:.92;margin-block-start:6px;}
+
+  footer{background:#100d18;color:#8f86a6;text-align:center;padding-block:28px;font-size:.85rem;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="eyebrow">Challenge Yourself</span>
+    <h1>The Basketball History Quiz</h1>
+    <p>Eight questions drawn straight from the article. Pick an answer for each, then see how you scored.</p>
+    <a class="backlink" href="index.html">&larr; Back to the article</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="result" id="result">
+      <div class="bar">
+        <div class="score"><span id="scoreNum">0</span><small>/8</small></div>
+        <div class="verdict" id="verdict">—</div>
+        <div class="msg" id="msg"></div>
+      </div>
+    </div>
+
+    <form id="quiz">
+      <!-- Questions are injected here by the script -->
+    </form>
+
+    <p class="warn" id="warn"></p>
+    <div class="actions">
+      <button type="button" class="btn" id="submitBtn">See My Score</button>
+      <button type="button" class="btn ghost" id="retakeBtn" style="display:none;">Try Again</button>
+      <a class="btn ghost" href="index.html" style="text-decoration:none;display:inline-block;">Re-read the Article</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>The Evolution of Basketball · Created by Nasser</footer>
+
+<script>
+  // ---- Quiz data: every answer is sourced from the article ----
+  var QUESTIONS = [
+    {
+      q: "Who invented the game of basketball?",
+      options: ["Dr. Luther Gulick", "Dr. James Naismith", "Michael Jordan", "Phil Knight"],
+      answer: 1
+    },
+    {
+      q: "In what year was basketball invented?",
+      options: ["1876", "1891", "1906", "1946"],
+      answer: 1
+    },
+    {
+      q: "In which city and state was the game first created?",
+      options: ["Boston, Massachusetts", "New York, New York", "Springfield, Massachusetts", "Chicago, Illinois"],
+      answer: 2
+    },
+    {
+      q: "What was originally used as the 'hoop'?",
+      options: ["A metal ring", "A peach basket", "A wooden crate", "A fishing net"],
+      answer: 1
+    },
+    {
+      q: "Why did Naismith invent the game?",
+      options: ["To create an Olympic event", "To replace American football", "For a safe, vigorous indoor game during winter", "To sell tickets at the YMCA"],
+      answer: 2
+    },
+    {
+      q: "What could players NOT do in the earliest version of the game?",
+      options: ["Pass the ball", "Score points", "Dribble the ball", "Play in teams"],
+      answer: 2
+    },
+    {
+      q: "When did the NBA introduce the three-point line?",
+      options: ["1954", "1979", "1984", "1991"],
+      answer: 1
+    },
+    {
+      q: "How long is a standard NBA game?",
+      options: ["4 × 10 min (40 min)", "2 × 20 min halves (40 min)", "4 × 12 min (48 min)", "4 × 15 min (60 min)"],
+      answer: 2
+    }
+  ];
+
+  var LETTERS = ["A", "B", "C", "D"];
+  var form = document.getElementById("quiz");
+  var graded = false;
+
+  // Build the quiz
+  QUESTIONS.forEach(function (item, qi) {
+    var card = document.createElement("div");
+    card.className = "q";
+    card.id = "q" + qi;
+
+    var num = document.createElement("div");
+    num.className = "qnum";
+    num.textContent = "Question " + (qi + 1) + " of " + QUESTIONS.length;
+    card.appendChild(num);
+
+    var h = document.createElement("h3");
+    h.textContent = item.q;
+    card.appendChild(h);
+
+    item.options.forEach(function (opt, oi) {
+      var label = document.createElement("label");
+      label.className = "opt";
+      label.setAttribute("data-qi", qi);
+      label.setAttribute("data-oi", oi);
+
+      var input = document.createElement("input");
+      input.type = "radio";
+      input.name = "q" + qi;
+      input.value = oi;
+
+      var span = document.createElement("span");
+      span.textContent = LETTERS[oi] + ".  " + opt;
+
+      label.appendChild(input);
+      label.appendChild(span);
+      card.appendChild(label);
+    });
+
+    form.appendChild(card);
+  });
+
+  var submitBtn = document.getElementById("submitBtn");
+  var retakeBtn = document.getElementById("retakeBtn");
+  var warn = document.getElementById("warn");
+  var resultBox = document.getElementById("result");
+
+  function gradeQuiz() {
+    if (graded) return;
+
+    // Check all answered
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (!document.querySelector('input[name="q' + i + '"]:checked')) {
+        warn.textContent = "Please answer all " + QUESTIONS.length + " questions before submitting.";
+        var miss = document.getElementById("q" + i);
+        if (miss) { miss.scrollIntoView({ behavior: "smooth", block: "center" }); }
+        return;
+      }
+    }
+    warn.textContent = "";
+
+    var score = 0;
+    QUESTIONS.forEach(function (item, qi) {
+      var card = document.getElementById("q" + qi);
+      card.classList.add("graded");
+      var chosen = parseInt(document.querySelector('input[name="q' + qi + '"]:checked').value, 10);
+      if (chosen === item.answer) { score++; }
+
+      var labels = card.querySelectorAll(".opt");
+      labels.forEach(function (label) {
+        var oi = parseInt(label.getAttribute("data-oi"), 10);
+        var input = label.querySelector("input");
+        input.disabled = true;
+        if (oi === item.answer) {
+          label.classList.add("correct");
+        } else if (oi === chosen) {
+          label.classList.add("wrong");
+        }
+      });
+    });
+
+    showResult(score);
+    graded = true;
+    submitBtn.style.display = "none";
+    retakeBtn.style.display = "inline-block";
+  }
+
+  function showResult(score) {
+    var total = QUESTIONS.length;
+    document.getElementById("scoreNum").textContent = score;
+
+    var verdict, msg;
+    var pct = score / total;
+    if (pct === 1) {
+      verdict = "Perfect game!";
+      msg = "A flawless score — you know the history of basketball inside and out.";
+    } else if (pct >= 0.75) {
+      verdict = "All-Star performance!";
+      msg = "Excellent work — just a few points shy of perfection.";
+    } else if (pct >= 0.5) {
+      verdict = "Solid effort!";
+      msg = "A respectable score. Give the article another read to sharpen up.";
+    } else {
+      verdict = "Back to the practice court!";
+      msg = "Revisit the article and run it back — you'll improve in no time.";
+    }
+    document.getElementById("verdict").textContent = verdict;
+    document.getElementById("msg").textContent = msg;
+
+    resultBox.classList.add("show");
+    resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  submitBtn.addEventListener("click", gradeQuiz);
+  retakeBtn.addEventListener("click", function () {
+    if (typeof window !== "undefined" && window.location) {
+      window.location.reload();
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>The Evolution of Basketball</title>
+<style>
+  :root{
+    --ink:#1c1a24;
+    --paper:#ffffff;
+    --cloud:#f6f4f0;
+    --muted:#6a6478;
+    --line:#e6e1d8;
+
+    /* NBA team-inspired palette (used as refined accents) */
+    --lakers-purple:#552583;
+    --lakers-gold:#c8a13a;
+    --warriors-blue:#1d428a;
+    --bulls-red:#a8102f;
+    --celtics-green:#1a6b3c;
+    --knicks-blue:#0a5a9c;
+    --knicks-orange:#d96a1f;
+    --court:#a9692c;
+
+    --radius:6px;
+    --shadow:0 22px 50px -26px rgba(30,15,55,.5);
+    --shadow-sm:0 10px 26px -18px rgba(30,15,55,.4);
+    --maxw:1040px;
+    --font-head:Georgia,'Times New Roman',serif;
+    --font-body:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#f1ecf8;
+      --paper:#161320;
+      --cloud:#1d1a28;
+      --muted:#b3aac6;
+      --line:#2c2740;
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--font-head);line-height:1.2;margin:0;font-weight:700;letter-spacing:.005em;}
+  p{margin:0 0 1rem;}
+  a{color:inherit;}
+
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(22px,5vw,44px);}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:saturate(160%) blur(10px);
+    background:color-mix(in srgb,var(--paper) 86%,transparent);
+    border-block-end:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;gap:14px;padding-block:15px;}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--font-head);font-weight:700;font-size:1.1rem;letter-spacing:.02em;}
+  .brand .ball{width:28px;height:28px;flex:none;}
+  .nav-links{margin-inline-start:auto;display:flex;gap:4px;flex-wrap:wrap;}
+  .nav-links a{
+    text-decoration:none;font-family:var(--font-body);font-size:.9rem;color:var(--muted);
+    padding:7px 14px;border-radius:4px;transition:.2s;
+  }
+  .nav-links a:hover{color:var(--lakers-purple);background:var(--cloud);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;overflow:hidden;color:#fff;
+    background:
+      radial-gradient(1100px 480px at 112% -12%,rgba(200,161,58,.30),transparent 58%),
+      linear-gradient(135deg,#3d1a5e 0%,var(--lakers-purple) 30%,var(--warriors-blue) 72%,#0a3a72 100%);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px);
+    background-size:52px 52px;
+    -webkit-mask-image:radial-gradient(72% 72% at 50% 28%,#000,transparent 76%);
+    mask-image:radial-gradient(72% 72% at 50% 28%,#000,transparent 76%);
+  }
+  .hero .wrap{position:relative;z-index:2;padding-block:clamp(60px,9vw,108px);}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
+    padding:7px 16px;border-radius:999px;font-size:.82rem;font-weight:600;
+    letter-spacing:.10em;text-transform:uppercase;margin-block-end:24px;
+  }
+  .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);max-width:17ch;font-weight:700;}
+  .hero .lead{font-size:clamp(1.08rem,2.2vw,1.35rem);max-width:62ch;margin-block-start:20px;opacity:.94;line-height:1.7;}
+  .hero-ball{
+    position:absolute;inset-inline-end:-70px;inset-block-start:50%;
+    transform:translateY(-50%);width:min(40vw,400px);opacity:.9;z-index:1;
+    filter:drop-shadow(0 26px 44px rgba(0,0,0,.42));
+  }
+  @media (max-width:760px){.hero-ball{display:none;}}
+
+  .quick{display:flex;flex-wrap:wrap;gap:0;margin-block-start:34px;border:1px solid rgba(255,255,255,.22);border-radius:8px;overflow:hidden;width:fit-content;max-width:100%;}
+  .chip{
+    display:flex;flex-direction:column;padding:14px 24px;
+    border-inline-end:1px solid rgba(255,255,255,.18);
+  }
+  .chip:last-child{border-inline-end:none;}
+  .chip b{font-family:var(--font-head);font-size:1.5rem;font-weight:700;}
+  .chip span{font-size:.76rem;opacity:.82;letter-spacing:.04em;text-transform:uppercase;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding-block:clamp(50px,7vw,84px);}
+  .eyebrow{
+    display:inline-block;font-family:var(--font-body);font-size:.78rem;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;margin-block-end:14px;
+  }
+  .section-title{font-size:clamp(1.8rem,4vw,2.6rem);margin-block-end:10px;}
+  .section-sub{color:var(--muted);max-width:68ch;margin-block-end:32px;font-size:1.1rem;line-height:1.8;}
+
+  .alt{background:var(--cloud);}
+
+  /* origin facts grid */
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-block-start:8px;}
+  .fact{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow-sm);border-block-start:3px solid var(--accent,var(--lakers-purple));
+  }
+  .fact .k{font-size:.72rem;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);}
+  .fact .v{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-block-start:6px;}
+
+  /* timeline */
+  .timeline{position:relative;margin-block-start:12px;padding-inline-start:8px;}
+  .timeline::before{
+    content:"";position:absolute;inset-block:8px 8px;inset-inline-start:13px;width:2px;
+    background:linear-gradient(var(--lakers-purple),var(--knicks-orange),var(--celtics-green));
+  }
+  .tl{position:relative;padding-inline-start:48px;padding-block:16px;}
+  .tl .dot{
+    position:absolute;inset-inline-start:6px;inset-block-start:22px;width:18px;height:18px;border-radius:50%;
+    background:var(--dot,var(--lakers-purple));border:4px solid var(--paper);box-shadow:0 0 0 1px var(--dot,var(--lakers-purple));
+  }
+  .tl .yr{font-family:var(--font-head);font-weight:700;font-size:1.05rem;color:var(--dot,var(--lakers-purple));}
+  .tl h3{font-size:1.2rem;margin-block:3px 5px;}
+  .tl p{margin:0;color:var(--muted);line-height:1.7;}
+
+  /* then vs now */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media (max-width:680px){.vs{grid-template-columns:1fr;}}
+  .panel{border-radius:var(--radius);padding:26px;color:#fff;box-shadow:var(--shadow);}
+  .panel.then{background:linear-gradient(160deg,#33261a,var(--court));}
+  .panel.now{background:linear-gradient(160deg,var(--bulls-red),var(--knicks-orange));}
+  .panel h3{font-size:1.35rem;margin-block-end:16px;border-block-end:1px solid rgba(255,255,255,.25);padding-block-end:12px;}
+  .panel ul{margin:0;padding-inline-start:18px;}
+  .panel li{margin-block-end:10px;line-height:1.65;}
+
+  /* table */
+  .table-wrap{overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;min-width:580px;background:var(--paper);}
+  th,td{padding:15px 18px;text-align:start;border-block-end:1px solid var(--line);font-size:.97rem;}
+  thead th{color:#fff;font-family:var(--font-head);font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;font-weight:700;}
+  thead th:nth-child(1){background:#2a2336;}
+  thead th:nth-child(2){background:var(--bulls-red);}
+  thead th:nth-child(3){background:var(--knicks-blue);}
+  thead th:nth-child(4){background:var(--celtics-green);}
+  tbody tr:nth-child(even){background:color-mix(in srgb,var(--cloud) 55%,transparent);}
+  tbody td:first-child{font-weight:700;font-family:var(--font-head);}
+  caption{caption-side:bottom;color:var(--muted);font-size:.85rem;padding-block-start:14px;text-align:start;font-style:italic;}
+
+  .note{
+    margin-block-start:26px;background:var(--cloud);border-inline-start:4px solid var(--lakers-purple);
+    color:var(--ink);border-radius:var(--radius);padding:22px 26px;font-size:1.08rem;line-height:1.7;font-style:italic;
+  }
+
+  /* ---------- QUIZ CTA ---------- */
+  .quiz-cta{
+    text-align:center;color:#fff;
+    background:
+      radial-gradient(900px 400px at 50% -40%,rgba(200,161,58,.28),transparent 60%),
+      linear-gradient(135deg,var(--lakers-purple),var(--warriors-blue));
+  }
+  .quiz-cta .eyebrow{color:var(--lakers-gold);}
+  .quiz-cta h2{font-size:clamp(1.9rem,4.5vw,2.8rem);max-width:20ch;margin-inline:auto;}
+  .quiz-cta p{font-size:1.15rem;opacity:.92;max-width:52ch;margin-inline:auto;margin-block:16px 30px;line-height:1.7;}
+  .btn{
+    display:inline-block;font-family:var(--font-head);font-weight:700;font-size:1.1rem;letter-spacing:.02em;
+    text-decoration:none;color:#2a1d05;background:var(--lakers-gold);
+    padding:16px 40px;border-radius:999px;border:2px solid transparent;
+    box-shadow:0 16px 32px -12px rgba(0,0,0,.5);transition:.2s;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 22px 40px -14px rgba(0,0,0,.55);background:#d8b250;}
+
+  /* footer */
+  footer{background:#100d18;color:#cfc7e0;padding-block:38px;}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;}
+  footer .brand{color:#fff;}
+  footer small{color:#8f86a6;font-family:var(--font-body);}
+  .dots-row{display:flex;gap:7px;margin-block-start:6px;}
+  .dots-row i{width:12px;height:12px;border-radius:50%;display:inline-block;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <span class="brand">
+      <svg class="ball" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><radialGradient id="bgrad" cx="38%" cy="34%" r="75%">
+          <stop offset="0%" stop-color="#e08a3c"/><stop offset="60%" stop-color="#c0681c"/><stop offset="100%" stop-color="#8f4a0f"/>
+        </radialGradient></defs>
+        <circle cx="50" cy="50" r="47" fill="url(#bgrad)" stroke="#2e1a08" stroke-width="2.5"/>
+        <path d="M50 3 V97 M3 50 H97" stroke="#2e1a08" stroke-width="2.5" fill="none"/>
+        <path d="M16 16 Q50 50 16 84 M84 16 Q50 50 84 84" stroke="#2e1a08" stroke-width="2.5" fill="none"/>
+      </svg>
+      Hoops History
+    </span>
+    <span class="nav-links">
+      <a href="#origin">Origins</a>
+      <a href="#first">Early Game</a>
+      <a href="#evolution">Evolution</a>
+      <a href="#vs">Then &amp; Now</a>
+      <a href="#rules">World Rules</a>
+    </span>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="hero-ball" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="47" fill="url(#bgrad)" stroke="#2e1a08" stroke-width="2.5"/>
+    <path d="M50 3 V97 M3 50 H97" stroke="#2e1a08" stroke-width="2.5" fill="none"/>
+    <path d="M16 16 Q50 50 16 84 M84 16 Q50 50 84 84" stroke="#2e1a08" stroke-width="2.5" fill="none"/>
+  </svg>
+  <div class="wrap">
+    <span class="badge">From Peach Baskets to a Global Game</span>
+    <h1>The Evolution of Basketball</h1>
+    <p class="lead">How a winter gymnasium experiment in 1891 became the fast, far-reaching, worldwide sport we know today — and why the rules still change from one country to the next.</p>
+    <div class="quick">
+      <span class="chip"><b>1891</b><span>Year invented</span></span>
+      <span class="chip"><b>10 ft</b><span>Original rim height</span></span>
+      <span class="chip"><b>13</b><span>Original rules</span></span>
+      <span class="chip"><b>200+</b><span>Countries playing</span></span>
+    </div>
+  </div>
+</header>
+
+<section id="origin">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--lakers-purple)">The Beginning</span>
+    <h2 class="section-title">When, Where, How &amp; Why It Was Created</h2>
+    <p class="section-sub">Basketball was invented in December 1891 by Dr. James Naismith, a Canadian physical-education instructor at the International YMCA Training School (today Springfield College) in Springfield, Massachusetts, USA. Harsh New England winters made it difficult to keep students active indoors, and the existing indoor games were rough and injury-prone. Given just two weeks to devise a safe yet vigorous indoor activity, Naismith nailed a peach basket to the balcony rail at each end of the gymnasium — roughly ten feet above the floor — and had players toss a soccer ball into it. He set down thirteen simple rules, and the first game was played in early 1892. That accidental ten-foot height remains the world standard to this day.</p>
+    <div class="facts">
+      <div class="fact" style="--accent:var(--lakers-purple)"><div class="k">When</div><div class="v">December 1891</div></div>
+      <div class="fact" style="--accent:var(--knicks-orange)"><div class="k">Where</div><div class="v">Springfield, Massachusetts</div></div>
+      <div class="fact" style="--accent:var(--knicks-blue)"><div class="k">Who</div><div class="v">Dr. James Naismith</div></div>
+      <div class="fact" style="--accent:var(--celtics-green)"><div class="k">Why</div><div class="v">A safe indoor winter game</div></div>
+      <div class="fact" style="--accent:var(--bulls-red)"><div class="k">Equipment</div><div class="v">Soccer ball &amp; peach baskets</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="first" class="alt">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--court)">The Early Days</span>
+    <h2 class="section-title">How People Used to Play</h2>
+    <p class="section-sub">Early basketball bore little resemblance to today's fast, high-flying sport — it was slow, methodical, and built entirely around teamwork.</p>
+    <div class="vs" style="grid-template-columns:1fr;">
+      <div class="panel then">
+        <h3>The Original Game</h3>
+        <ul>
+          <li><b>The baskets still had their bottoms</b> — after every score, someone climbed a ladder or used a pole to retrieve the ball.</li>
+          <li><b>There was no dribbling at all</b> — the ball could only be advanced by passing, after which the player had to stop where it was caught.</li>
+          <li><b>Low scores and a slow pace</b> — the game rewarded passing, positioning, and accuracy rather than athleticism.</li>
+          <li><b>Larger teams</b> than today's five-a-side standard, with tightly restricted physical contact.</li>
+          <li><b>Governed by Naismith's thirteen rules</b> — the entire rulebook fit on two pages.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="evolution">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--knicks-orange)">The Transformation</span>
+    <h2 class="section-title">The Changes That Built the Modern Game</h2>
+    <p class="section-sub">A handful of inventions and rule changes turned a slow indoor pastime into today's electric sport.</p>
+    <div class="timeline">
+      <div class="tl" style="--dot:var(--bulls-red)">
+        <span class="dot"></span><div class="yr">1890s</div>
+        <h3>Open nets replace the peach baskets</h3>
+        <p>Bottomless metal hoops and nets let the ball fall straight through — ending the ritual of fishing it out after every basket.</p>
+      </div>
+      <div class="tl" style="--dot:var(--knicks-orange)">
+        <span class="dot"></span><div class="yr">1906</div>
+        <h3>Backboards arrive</h3>
+        <p>Originally added to stop balcony spectators from deflecting shots — later embraced as a tool for the bank shot.</p>
+      </div>
+      <div class="tl" style="--dot:var(--lakers-gold)">
+        <span class="dot"></span><div class="yr">Early 1900s</div>
+        <h3>Dribbling becomes a skill</h3>
+        <p>Bouncing the ball gradually became legal and central, opening up one-on-one play and free movement around the court.</p>
+      </div>
+      <div class="tl" style="--dot:var(--warriors-blue)">
+        <span class="dot"></span><div class="yr">1954</div>
+        <h3>The twenty-four-second shot clock</h3>
+        <p>The NBA required teams to shoot within twenty-four seconds, ending stalling tactics and dramatically quickening the game.</p>
+      </div>
+      <div class="tl" style="--dot:var(--celtics-green)">
+        <span class="dot"></span><div class="yr">1979 &amp; 1984</div>
+        <h3>The three-point revolution</h3>
+        <p>The NBA introduced the three-point line in 1979 and FIBA followed in 1984, rewarding long-range shooting and reshaping strategy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vs" class="alt">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--bulls-red)">Side by Side</span>
+    <h2 class="section-title">Then &amp; Now</h2>
+    <p class="section-sub">A measure of just how far the game has travelled from 1891 to the present day.</p>
+    <div class="vs">
+      <div class="panel then">
+        <h3>Early Game — 1890s</h3>
+        <ul>
+          <li>Scored into a peach basket with a bottom</li>
+          <li>Ball advanced by passing only</li>
+          <li>Slow, low-scoring, and methodical</li>
+          <li>Teamwork valued over athleticism</li>
+          <li>Played in a single American gymnasium</li>
+        </ul>
+      </div>
+      <div class="panel now">
+        <h3>The Modern Game</h3>
+        <ul>
+          <li>Scored through an open hoop and net</li>
+          <li>Dribbling, passing, and fast breaks</li>
+          <li>Fast-paced and high-scoring</li>
+          <li>Dunks, three-pointers, and elite athletes</li>
+          <li>Played in nearly every country on Earth</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--knicks-blue)">Around the World</span>
+    <h2 class="section-title">Rules &amp; Refereeing Differ by Country</h2>
+    <p class="section-sub">Basketball is global, but its rulebook is not universal. The NBA (the leading American professional league), FIBA (which governs international play, the Olympics, and most of the world), and the NCAA (American college basketball) each officiate the game differently — affecting its length, the shot clock, fouls, and even what constitutes goaltending. It is why players moving between leagues must adjust to an entirely different style of refereeing.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Key rule differences across the three major rule sets.</caption>
+        <thead>
+          <tr><th>Rule</th><th>NBA — USA Pro</th><th>FIBA — International</th><th>NCAA — US College (Men)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Game length</td><td>4 × 12 min (48 min)</td><td>4 × 10 min (40 min)</td><td>2 × 20 min halves (40 min)</td></tr>
+          <tr><td>Shot clock</td><td>24 seconds</td><td>24 seconds</td><td>30 seconds</td></tr>
+          <tr><td>Fouls to foul out</td><td>6 personal fouls</td><td>5 personal fouls</td><td>5 personal fouls</td></tr>
+          <tr><td>Defensive three-second rule</td><td>Yes</td><td>No</td><td>No</td></tr>
+          <tr><td>Goaltending off the rim</td><td>Stricter — cannot play ball on the rim</td><td>Ball may be played once it hits the rim</td><td>Stricter, similar to the NBA</td></tr>
+          <tr><td>Court &amp; three-point line</td><td>Larger court, longer line</td><td>Smaller court, shorter line</td><td>College-specific dimensions</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Because each country and league writes its own rules — and referees enforce them in their own style — the very same sport can feel noticeably different depending on where in the world it is played.</div>
+  </div>
+</section>
+
+<section class="quiz-cta">
+  <div class="wrap">
+    <span class="eyebrow">Test Your Knowledge</span>
+    <h2>Quiz yourself on what you just read</h2>
+    <p>Think you've absorbed the history of the game? Put your understanding to the test with a short challenge based on this article.</p>
+    <a class="btn" href="quiz.html">Challenge Myself &rarr;</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">Hoops History</span>
+    <div>
+      <div class="dots-row" aria-hidden="true">
+        <i style="background:#552583"></i><i style="background:#c8a13a"></i><i style="background:#1d428a"></i>
+        <i style="background:#a8102f"></i><i style="background:#1a6b3c"></i><i style="background:#d96a1f"></i>
+      </div>
+      <small>The Evolution of Basketball · Created by Nasser</small>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
